@@ -55,11 +55,11 @@ Server::~Server() {
 
         connectedClients.push_back(newClient);  // Store the connected client
 
-        sendMessageToAllClients("online");
+        sendMessageToAllClients("online\n");
 
         newClient->startListening();
 
-        std::string welcomeMsg = "Welcome to the chat!";
+        std::string welcomeMsg = "Welcome to the chat!\n";
         newClient->sendMessage(welcomeMsg);
     }
 }
@@ -81,7 +81,7 @@ void Server::listenBroadcast() {
         std::getline(std::cin, msg);
 
         if (!msg.empty()) {
-            sendMessageToAllClients(msg);  // Send the message to all clients
+            sendMessageToAllClients(msg+"\n");  // Send the message to all clients
         }
     }
 }
