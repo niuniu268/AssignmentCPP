@@ -27,4 +27,5 @@ private:
     std::vector<std::shared_ptr<Client>> connectedClients;
 
     void listenBroadcast();
+    void processMessage(const std::string& msg, std::shared_ptr<Client> sender);
 };

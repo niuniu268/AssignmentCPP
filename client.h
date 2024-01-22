@@ -3,20 +3,28 @@
 #include <iostream>
 #include <thread>
 #include <string>
+#include <functional>
 
-class Client {
+class Client : public std::enable_shared_from_this<Client> {
 public:
     std::string name;
     std::string address;
     int socket;
     std::thread listener;
 
+    using MessageReceivedCallback = std::function<void(const std::string&, std::shared_ptr<Client>)>;
+
+
     explicit Client(int clientSocket, std::string clientAddress);
     ~Client();
 
-    void startListening();
-    void sendMessage(const std::string& msg); // Add this method
+    void startListening(std::function<void(const std::string&, std::shared_ptr<Client>)> onMessageReceivedCallback);
+    void sendMessage(const std::string& msg);
+    void setOnMessageReceivedCallback(MessageReceivedCallback callback);
+
 
 private:
     bool isListening;
+    // std::function<void(const std::string&)> onMessageReceivedCallback;
+    MessageReceivedCallback onMessageReceivedCallback;
 };

@@ -57,7 +57,9 @@ Server::~Server() {
 
         sendMessageToAllClients("online\n");
 
-        newClient->startListening();
+        newClient->startListening([this](const std::string& msg, std::shared_ptr<Client> sender) {
+            processMessage(msg, sender);
+        });
 
         std::string welcomeMsg = "Welcome to the chat!\n";
         newClient->sendMessage(welcomeMsg);
@@ -81,7 +83,13 @@ void Server::listenBroadcast() {
         std::getline(std::cin, msg);
 
         if (!msg.empty()) {
-            sendMessageToAllClients(msg+"\n");  // Send the message to all clients
+            sendMessageToAllClients(msg + "\n");  // Send the message to all clients
         }
     }
+}
+
+void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
+    // Process the incoming message, modify it, and send it back to the clients
+    std::string modifiedMsg = "[" + sender->address + "]: " + msg + " " + std::to_string(msg.size());
+    sendMessageToAllClients(modifiedMsg + "\n");
 }
