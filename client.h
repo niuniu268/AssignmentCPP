@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <thread>
+#include <string>
 
 class Client {
 public:
@@ -14,9 +15,8 @@ public:
     ~Client();
 
     void startListening();
+    void sendMessage(const std::string& msg); // Add this method
 
 private:
-    bool isListening;  // Add a flag to indicate whether the listener is active
-
-    // Add any private member variables or methods as needed
+    bool isListening;
 };

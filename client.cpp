@@ -34,3 +34,8 @@ void Client::startListening() {
         }
     });
 }
+
+void Client::sendMessage(const std::string& msg) {
+    // Send the message to the client
+    send(socket, msg.c_str(), msg.size(), 0);
+}

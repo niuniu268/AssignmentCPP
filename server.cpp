@@ -53,22 +53,35 @@ Server::~Server() {
         onlineMap[newClient->address] = newClient;
         mapLock.unlock();
 
-        broadcast("online", newClient);
+        connectedClients.push_back(newClient);  // Store the connected client
+
+        sendMessageToAllClients("online");
 
         newClient->startListening();
+
+        std::string welcomeMsg = "Welcome to the chat!";
+        newClient->sendMessage(welcomeMsg);
     }
 }
 
-void Server::broadcast(const std::string& msg, std::shared_ptr<Client> client) {
-    std::string sendMsg = "[" + client->address + "]: " + msg + "\n";
-
+void Server::sendMessageToAllClients(const std::string& msg) {
     mapLock.lock();
-    for (const auto& pair : onlineMap) {
-        send(pair.second->socket, sendMsg.c_str(), sendMsg.size(), 0);
+    for (const auto& client : connectedClients) {
+        client->sendMessage(msg);
     }
     mapLock.unlock();
 }
 
 void Server::listenBroadcast() {
+    while (true) {
+        std::string msg;
 
+        // For this example, we'll simply read from standard input,
+        // but you could replace this with any mechanism to get messages.
+        std::getline(std::cin, msg);
+
+        if (!msg.empty()) {
+            sendMessageToAllClients(msg);  // Send the message to all clients
+        }
+    }
 }

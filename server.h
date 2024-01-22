@@ -4,6 +4,7 @@
 #include <map>
 #include <mutex>
 #include <thread>
+#include <vector>
 #include <memory>
 
 class Client;  // Forward declaration
@@ -15,7 +16,7 @@ public:
 
     [[noreturn]] void start();
 
-    void broadcast(const std::string& msg, std::shared_ptr<Client> client);
+    void sendMessageToAllClients(const std::string& msg);
 
 private:
     std::string ip;
@@ -23,6 +24,7 @@ private:
     int serverSocket;
     std::map<std::string, std::shared_ptr<Client>> onlineMap;
     std::mutex mapLock;
+    std::vector<std::shared_ptr<Client>> connectedClients;
 
     void listenBroadcast();
 };
