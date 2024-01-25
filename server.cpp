@@ -63,6 +63,17 @@ Server::~Server() {
 
         std::string welcomeMsg = "Welcome to the chat!\n";
         newClient->sendMessage(welcomeMsg);
+
+
+        // if (msg.substr(0, 3) == "add") {
+        //     crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
+        //     sender->sendMessage("success\n");
+        // }
+        // // Add other CRUD command handling logic here...
+        // else {
+        //     // Process non-CRUD messages
+        //     // ...
+        // }
     }
 }
 
@@ -88,8 +99,19 @@ void Server::listenBroadcast() {
     }
 }
 
+// void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
+//     // Process the incoming message, modify it, and send it back to the clients
+//     std::string modifiedMsg = "[" + sender->address + "]: " + msg + " " + std::to_string(msg.size());
+//     sendMessageToAllClients(modifiedMsg + "\n");
+// }
 void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
-    // Process the incoming message, modify it, and send it back to the clients
-    std::string modifiedMsg = "[" + sender->address + "]: " + msg + " " + std::to_string(msg.size());
-    sendMessageToAllClients(modifiedMsg + "\n");
+    if (msg.substr(0, 3) == "add") {
+        crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
+        sender->sendMessage("success\n");
+    }
+    // Add other CRUD command handling logic here...
+    else {
+        // Process non-CRUD messages
+        // ...
+    }
 }

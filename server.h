@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 #include <memory>
+#include "manage.h"
 
 class Client;  // Forward declaration
 
@@ -25,6 +26,7 @@ private:
     std::map<std::string, std::shared_ptr<Client>> onlineMap;
     std::mutex mapLock;
     std::vector<std::shared_ptr<Client>> connectedClients;
+    Manage crudManager;  // Instance of the Manage class for CRUD operations
 
     void listenBroadcast();
     void processMessage(const std::string& msg, std::shared_ptr<Client> sender);

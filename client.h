@@ -14,7 +14,6 @@ public:
 
     using MessageReceivedCallback = std::function<void(const std::string&, std::shared_ptr<Client>)>;
 
-
     explicit Client(int clientSocket, std::string clientAddress);
     ~Client();
 
@@ -22,9 +21,7 @@ public:
     void sendMessage(const std::string& msg);
     void setOnMessageReceivedCallback(MessageReceivedCallback callback);
 
-
 private:
     bool isListening;
-    // std::function<void(const std::string&)> onMessageReceivedCallback;
     MessageReceivedCallback onMessageReceivedCallback;
 };
