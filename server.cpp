@@ -5,6 +5,9 @@
 #include <cstring>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 Server::Server(const std::string& serverIp, int serverPort)
     : ip(serverIp), port(serverPort), serverSocket(-1) {}
@@ -64,16 +67,6 @@ Server::~Server() {
         std::string welcomeMsg = "Welcome to the chat!\n";
         newClient->sendMessage(welcomeMsg);
 
-
-        // if (msg.substr(0, 3) == "add") {
-        //     crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
-        //     sender->sendMessage("success\n");
-        // }
-        // // Add other CRUD command handling logic here...
-        // else {
-        //     // Process non-CRUD messages
-        //     // ...
-        // }
     }
 }
 
@@ -99,19 +92,66 @@ void Server::listenBroadcast() {
     }
 }
 
-// void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
-//     // Process the incoming message, modify it, and send it back to the clients
-//     std::string modifiedMsg = "[" + sender->address + "]: " + msg + " " + std::to_string(msg.size());
-//     sendMessageToAllClients(modifiedMsg + "\n");
-// }
-void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
-    if (msg.substr(0, 3) == "add") {
-        crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
-        sender->sendMessage("success\n");
+std::vector<std::string> split(const std::string& s) {
+    std::istringstream iss(s);
+    std::vector<std::string> tokens;
+    std::string token;
+
+    while (iss >> token) {
+        tokens.push_back(token);
     }
-    // Add other CRUD command handling logic here...
-    else {
-        // Process non-CRUD messages
-        // ...
+
+    return tokens;
+}
+
+void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
+    std::vector<std::string> tokens = split(msg);
+
+    if (tokens.empty()) {
+        sender->sendMessage("wrong input\n");
+        return;
+    }
+
+    const std::string& command = tokens[0];
+
+    if (command == "add" && tokens.size() > 1) {
+        crudManager.Add_Acc(tokens[1]);
+        sender->sendMessage("success\n");
+    } else if (command == "show") {
+        crudManager.Show_Acc();
+        sender->sendMessage("success\n");
+    } else if (command == "delete" && tokens.size() > 1) {
+        crudManager.Del_Acc(tokens[1]);
+        sender->sendMessage("success\n");
+    } else if (command == "update" && tokens.size() > 2) {
+        crudManager.Mod_Acc(tokens[1], tokens[2]);
+        sender->sendMessage("success\n");
+    } else if (command == "search" && tokens.size() > 1) {
+        crudManager.Search_Acc(tokens[1]);
+        sender->sendMessage("success\n");
+    } else {
+        sender->sendMessage("wrong input\n");
     }
 }
+// void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
+//     if (msg.substr(0, 3) == "add") {
+//         crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
+//         sender->sendMessage("success\n");
+//     } else if (msg.substr(0, 4) == "show") {
+//         crudManager.Show_Acc();
+//         sender->sendMessage("success\n");
+//     } else if (msg.substr(0, 6) == "delete") {
+//         crudManager.Del_Acc(msg.substr(7)); // Extract the name after "delete"
+//         sender->sendMessage("success\n");
+//     } else if (msg.substr(0, 6) == "update") {
+//         size_t spacePos = msg.find(' ');
+//         size_t spacePos2 = msg.find(' ', spacePos + 1);
+//         crudManager.Mod_Acc(msg.substr(spacePos + 1, spacePos2 - spacePos - 1), msg.substr(spacePos2 + 1));
+//         sender->sendMessage("success\n");
+//     } else if (msg.substr(0, 6) == "search") {
+//         crudManager.Search_Acc(msg.substr(7)); // Extract the name after "search"
+//         sender->sendMessage("success\n");
+//     } else {
+//         sender->sendMessage("wrong input\n");
+//     }
+// }
