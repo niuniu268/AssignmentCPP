@@ -115,20 +115,24 @@ void Server::processMessage(const std::string& msg, std::shared_ptr<Client> send
     const std::string& command = tokens[0];
 
     if (command == "add" && tokens.size() > 1) {
-        crudManager.Add_Acc(tokens[1]);
-        sender->sendMessage("success\n");
+        std::string answer = crudManager.Add_Acc(tokens[1]);
+        sender->sendMessage(answer+"\n");
     } else if (command == "show") {
         crudManager.Show_Acc();
-        sender->sendMessage("success\n");
+        for (int i = 0; i < crudManager.m_Num; i++)
+        {
+            sender->sendMessage(crudManager.m_Array[i]->m_Name + std::string("\n"));
+        }
+        
     } else if (command == "delete" && tokens.size() > 1) {
-        crudManager.Del_Acc(tokens[1]);
-        sender->sendMessage("success\n");
+        std::string answer = crudManager.Del_Acc(tokens[1]);
+        sender->sendMessage(answer+"\n");
     } else if (command == "update" && tokens.size() > 2) {
-        crudManager.Mod_Acc(tokens[1], tokens[2]);
-        sender->sendMessage("success\n");
+        std::string answer = crudManager.Mod_Acc(tokens[1], tokens[2]);
+        sender->sendMessage(answer+"\n");
     } else if (command == "search" && tokens.size() > 1) {
-        crudManager.Search_Acc(tokens[1]);
-        sender->sendMessage("success\n");
+        std::string answer = crudManager.Search_Acc(tokens[1]);
+        sender->sendMessage(answer + "\n");
     } else {
         sender->sendMessage("wrong input\n");
     }

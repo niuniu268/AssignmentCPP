@@ -21,7 +21,7 @@ Manage::~Manage() {
 
 }
 
-void Manage::Add_Acc(const std::string& input) {
+std::string Manage::Add_Acc(const std::string& input) {
     int newSize = m_Num + 1;
     Accounts** newSpace = new Accounts*[newSize];
 
@@ -40,6 +40,7 @@ void Manage::Add_Acc(const std::string& input) {
     this->save();
 
     std::cout << "success\n";
+    return "success";
 }
 
 void Manage::Show_Acc() {
@@ -50,9 +51,10 @@ void Manage::Show_Acc() {
             m_Array[i]->showInfo();
         }
     }
+
 }
 
-void Manage::Del_Acc(const std::string& input) {
+std::string Manage::Del_Acc(const std::string& input) {
 
     int index = IsExist(input);
 
@@ -67,13 +69,15 @@ void Manage::Del_Acc(const std::string& input) {
         this->save();
 
         std::cout << "success\n";
+        return "success\n";
 
     } else {
         std::cout << "Account not found.\n";
+        return "Account not found.\n";
     }
 }
 
-void Manage::Mod_Acc(const std::string& oldInput, const std::string& newInput) {
+std::string Manage::Mod_Acc(const std::string& oldInput, const std::string& newInput) {
     int index = IsExist(oldInput);
 
     if (index != -1) {
@@ -87,18 +91,22 @@ void Manage::Mod_Acc(const std::string& oldInput, const std::string& newInput) {
         this->save();
 
         std::cout << "success\n";
+        return "success\n";
     } else {
         std::cout << "Account not found.\n";
+        return "Account not found.\n";
     }
 }
 
-void Manage::Search_Acc(const std::string& input) {
+std::string Manage::Search_Acc(const std::string& input) {
     int check = IsExist(input);
 
     if (check != -1) {
         std::cout << input << " exists\n";
+        return input+"existed\n";
     } else {
         std::cout << input << " does not exist\n";
+        return input+" does not exist\n";
     }
 }
 

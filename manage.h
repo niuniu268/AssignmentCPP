@@ -5,6 +5,7 @@
 #include "accounts.h"
 #include "accountsCredit.h"
 #include <fstream>
+#include <vector>
 #define FILENAME "database.txt"
 
 
@@ -13,11 +14,11 @@ public:
     Manage();
     ~Manage();
 
-    void Add_Acc(const std::string& input);
+    std::string Add_Acc(const std::string& input);
     void Show_Acc();
-    void Del_Acc(const std::string& input);
-    void Mod_Acc(const std::string& oldInput, const std::string& newInput);
-    void Search_Acc(const std::string& input);
+    std::string Del_Acc(const std::string& input);
+    std::string Mod_Acc(const std::string& oldInput, const std::string& newInput);
+    std::string Search_Acc(const std::string& input);
 
 
     int m_Num;
