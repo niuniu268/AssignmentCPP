@@ -12,8 +12,6 @@ Client::Client(int clientSocket, std::string clientAddress)
 
 Client::~Client() {
     close(socket);
-
-    // Check if the listener thread is joinable before joining
     if (listener.joinable()) {
         listener.join();
     }
@@ -21,15 +19,15 @@ Client::~Client() {
 
 void Client::startListening(MessageReceivedCallback onMessageReceivedCallback) {
     this->onMessageReceivedCallback = onMessageReceivedCallback;
-    auto sharedThis = shared_from_this();  // Capture shared pointer
+    auto sharedThis = shared_from_this(); 
 
     listener = std::thread([this, sharedThis, onMessageReceivedCallback = std::move(onMessageReceivedCallback)]() mutable {
         char buffer[4096];
         while (isListening) {
             ssize_t bytesRead = recv(socket, buffer, sizeof(buffer), 0);
             if (bytesRead <= 0) {
-                // Handle disconnection or error
-                isListening = false;  // Set flag to stop the listener
+
+                isListening = false;  
                 break;
             }
 
@@ -46,7 +44,7 @@ void Client::startListening(MessageReceivedCallback onMessageReceivedCallback) {
 
 
 void Client::sendMessage(const std::string& msg) {
-    // Send the message to the client
+
     send(socket, msg.c_str(), msg.size(), 0);
 }
 

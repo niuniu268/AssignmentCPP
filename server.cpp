@@ -56,7 +56,7 @@ Server::~Server() {
         onlineMap[newClient->address] = newClient;
         mapLock.unlock();
 
-        connectedClients.push_back(newClient);  // Store the connected client
+        connectedClients.push_back(newClient);
 
         sendMessageToAllClients("online\n");
 
@@ -82,12 +82,10 @@ void Server::listenBroadcast() {
     while (true) {
         std::string msg;
 
-        // For this example, we'll simply read from standard input,
-        // but you could replace this with any mechanism to get messages.
         std::getline(std::cin, msg);
 
         if (!msg.empty()) {
-            sendMessageToAllClients(msg + "\n");  // Send the message to all clients
+            sendMessageToAllClients(msg + "\n"); 
         }
     }
 }
@@ -137,25 +135,4 @@ void Server::processMessage(const std::string& msg, std::shared_ptr<Client> send
         sender->sendMessage("wrong input\n");
     }
 }
-// void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
-//     if (msg.substr(0, 3) == "add") {
-//         crudManager.Add_Acc(msg.substr(4)); // Extract the name after "add"
-//         sender->sendMessage("success\n");
-//     } else if (msg.substr(0, 4) == "show") {
-//         crudManager.Show_Acc();
-//         sender->sendMessage("success\n");
-//     } else if (msg.substr(0, 6) == "delete") {
-//         crudManager.Del_Acc(msg.substr(7)); // Extract the name after "delete"
-//         sender->sendMessage("success\n");
-//     } else if (msg.substr(0, 6) == "update") {
-//         size_t spacePos = msg.find(' ');
-//         size_t spacePos2 = msg.find(' ', spacePos + 1);
-//         crudManager.Mod_Acc(msg.substr(spacePos + 1, spacePos2 - spacePos - 1), msg.substr(spacePos2 + 1));
-//         sender->sendMessage("success\n");
-//     } else if (msg.substr(0, 6) == "search") {
-//         crudManager.Search_Acc(msg.substr(7)); // Extract the name after "search"
-//         sender->sendMessage("success\n");
-//     } else {
-//         sender->sendMessage("wrong input\n");
-//     }
-// }
+
