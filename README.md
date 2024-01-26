@@ -21,6 +21,10 @@
 
 ### Results
 
+- Makefile relation
+
+![image6](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/makefile_graph.png?raw=true)
+
 - Show
 ![image2](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.24.49.png?raw=true)
 
@@ -31,4 +35,4 @@
 ![image4](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.26.39.png?raw=true)
 
 - Delete
-![image4](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.26.16.png?raw=true)
+![image5](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.26.16.png?raw=true)
