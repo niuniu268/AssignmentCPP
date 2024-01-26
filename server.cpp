@@ -64,7 +64,7 @@ Server::~Server() {
             processMessage(msg, sender);
         });
 
-        std::string welcomeMsg = "Welcome to the chat!\n";
+        std::string welcomeMsg = "Please input update show delete or add\n";
         newClient->sendMessage(welcomeMsg);
 
     }
@@ -92,28 +92,28 @@ void Server::listenBroadcast() {
 
 std::vector<std::string> split(const std::string& s) {
     std::istringstream iss(s);
-    std::vector<std::string> tokens;
-    std::string token;
+    std::vector<std::string> choices;
+    std::string choice;
 
-    while (iss >> token) {
-        tokens.push_back(token);
+    while (iss >> choice) {
+        choices.push_back(choice);
     }
 
-    return tokens;
+    return choices;
 }
 
 void Server::processMessage(const std::string& msg, std::shared_ptr<Client> sender) {
-    std::vector<std::string> tokens = split(msg);
+    std::vector<std::string> choices = split(msg);
 
-    if (tokens.empty()) {
+    if (choices.empty()) {
         sender->sendMessage("wrong input\n");
         return;
     }
 
-    const std::string& command = tokens[0];
+    const std::string& command = choices[0];
 
-    if (command == "add" && tokens.size() > 1) {
-        std::string answer = crudManager.Add_Acc(tokens[1]);
+    if (command == "add" && choices.size() > 1) {
+        std::string answer = crudManager.Add_Acc(choices[1]);
         sender->sendMessage(answer+"\n");
     } else if (command == "show") {
         crudManager.Show_Acc();
@@ -122,14 +122,14 @@ void Server::processMessage(const std::string& msg, std::shared_ptr<Client> send
             sender->sendMessage(crudManager.m_Array[i]->m_Name + std::string("\n"));
         }
         
-    } else if (command == "delete" && tokens.size() > 1) {
-        std::string answer = crudManager.Del_Acc(tokens[1]);
+    } else if (command == "delete" && choices.size() > 1) {
+        std::string answer = crudManager.Del_Acc(choices[1]);
         sender->sendMessage(answer+"\n");
-    } else if (command == "update" && tokens.size() > 2) {
-        std::string answer = crudManager.Mod_Acc(tokens[1], tokens[2]);
+    } else if (command == "update" && choices.size() > 2) {
+        std::string answer = crudManager.Mod_Acc(choices[1], choices[2]);
         sender->sendMessage(answer+"\n");
-    } else if (command == "search" && tokens.size() > 1) {
-        std::string answer = crudManager.Search_Acc(tokens[1]);
+    } else if (command == "search" && choices.size() > 1) {
+        std::string answer = crudManager.Search_Acc(choices[1]);
         sender->sendMessage(answer + "\n");
     } else {
         sender->sendMessage("wrong input\n");
