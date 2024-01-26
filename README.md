@@ -21,10 +21,14 @@
 
 ### Results
 
-- Create
-
 - Show
+![image2](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.24.49.png?raw=true)
+
+- Add
+![image3](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.25.37.png?raw=true)
 
 - Update
+![image4](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.26.39.png?raw=true)
 
 - Delete
+![image4](https://github.com/niuniu268/AssignmentCPP/blob/master/imgs/Screenshot%202024-01-26%20at%2005.26.16.png?raw=true)
